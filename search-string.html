@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medium Trend Mining – Search Command Bank</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    color: #111;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.query {
+    background: #f7f7f7;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    word-break: break-word;
+}
+
+button {
+    margin-top: 8px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    background: #111;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:active {
+    background: #333;
+}
+</style>
+</head>
+
+<body>
+
+<h1>MEDIUM TREND MINING – SEARCH COMMAND BANK</h1>
+
+<div id="container"></div>
+
+<script>
+const sections = [
+{
+title: "1. MONEY / INCOME DISCOVERY",
+queries: [
+'site:medium.com "how I made money online"',
+'site:medium.com "how I made my first $100 online"',
+'site:medium.com "how I reached $1000 online income"',
+'site:medium.com "how I built a side hustle"',
+'site:medium.com "passive income online case study"',
+'site:medium.com "how I monetized my content"',
+'site:medium.com "online income experiment results"',
+'site:medium.com "how I made money without investment"'
+]
+},
+{
+title: "2. WRITING + MEDIUM EARNINGS",
+queries: [
+'site:medium.com "how I made money writing"',
+'site:medium.com "how I earned on medium"',
+'site:medium.com "medium partner program earnings"',
+'site:medium.com "my medium writing strategy"',
+'site:medium.com "what worked for me on medium"',
+'site:medium.com "how I grew on medium"',
+'site:medium.com "how I got views on medium"',
+'site:medium.com "writing online income case study"'
+]
+},
+{
+title: "3. CONTENT GROWTH + AUDIENCE BUILDING",
+queries: [
+'site:medium.com "how I grew my audience"',
+'site:medium.com "how I got traffic to my content"',
+'site:medium.com "my content growth strategy"',
+'site:medium.com "how I built an audience from zero"',
+'site:medium.com "what worked for me content creation"',
+'site:medium.com "how I stayed consistent with content"',
+'site:medium.com "content creation experiment results"'
+]
+},
+{
+title: "4. SOCIAL MEDIA + PROMOTION",
+queries: [
+'site:medium.com "how I promoted my content"',
+'site:medium.com "how I got traffic from social media"',
+'site:medium.com "how I grew on social media"',
+'site:medium.com "social media marketing case study"',
+'site:medium.com "how I marketed my product online"',
+'site:medium.com "what worked for me social media"',
+'site:medium.com "organic traffic strategy social media"'
+]
+},
+{
+title: "5. EXPERIMENT / CHALLENGE / CASE STUDY GOLDMINE",
+queries: [
+'site:medium.com "I tried making money online"',
+'site:medium.com "I tested a side hustle"',
+'site:medium.com "my 30 day challenge results"',
+'site:medium.com "I posted daily for 30 days"',
+'site:medium.com "I tried writing every day"',
+'site:medium.com "experimenting with online income"',
+'site:medium.com "what happened when I started writing"'
+]
+},
+{
+title: "6. TREND + MODERN ANGLES (HIGH SIGNAL)",
+queries: [
+'site:medium.com "AI tools for making money"',
+'site:medium.com "how I used AI to make money"',
+'site:medium.com "no code side hustle"',
+'site:medium.com "digital products income strategy"',
+'site:medium.com "creator economy strategy"',
+'site:medium.com "automation for online income"'
+]
+},
+{
+title: "7. ADVANCED STACKED SEARCH (HIGH-PRECISION)",
+queries: [
+'site:medium.com "how I made money online" "writing"',
+'site:medium.com "medium partner program" "earnings"',
+'site:medium.com "how I grew on medium" "followers"',
+'site:medium.com "content strategy" "case study"',
+'site:medium.com "social media strategy" "experiment"',
+'site:medium.com "how I got traffic" "medium"'
+]
+},
+{
+title: "8. FRESHNESS / TREND TRACKING",
+queries: [
+'site:medium.com "how I made money online" "2025"',
+'site:medium.com "side hustle strategy" "2025"',
+'site:medium.com "content creation strategy" "this year"',
+'site:medium.com "medium writing tips" "recent"',
+'site:medium.com "online income case study" "latest"'
+]
+}
+];
+
+const container = document.getElementById("container");
+
+sections.forEach(section => {
+    const h2 = document.createElement("h2");
+    h2.textContent = section.title;
+    container.appendChild(h2);
+
+    section.queries.forEach(q => {
+        const div = document.createElement("div");
+        div.className = "query";
+
+        const text = document.createElement("div");
+        text.textContent = q;
+
+        const btn = document.createElement("button");
+        btn.textContent = "Copy Search String";
+        btn.onclick = () => {
+            navigator.clipboard.writeText(q);
+            btn.textContent = "Copied!";
+            setTimeout(() => btn.textContent = "Copy Search String", 1500);
+        };
+
+        div.appendChild(text);
+        div.appendChild(btn);
+        container.appendChild(div);
+    });
+});
+</script>
+
+</body>
+</html>

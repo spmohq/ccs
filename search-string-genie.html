@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Strings Genie</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f0f4f8;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin: 0;
+            border-bottom: 4px solid #3498db;
+            display: inline-block;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e1e8ed;
+        }
+
+        .label {
+            display: block;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .prompt-text {
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            line-height: 1.8;
+        }
+
+        .dynamic-keyword {
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .copy-btn {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 3px 0 #2980b9;
+        }
+
+        .copy-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .success {
+            background-color: #27ae60 !important;
+            box-shadow: 0 3px 0 #1e8449 !important;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Search Strings Genie</h1>
+    </header>
+
+    <div class="container">
+        <!-- Dynamic Input Field -->
+        <div class="card">
+            <span class="label">[Filter or 2nd keyword]</span>
+            <input type="text" id="keywordInput" placeholder="e.g. faceless YouTube, digital products, SEO..." oninput="updateStrings()">
+        </div>
+
+        <!-- Prompt Output Card -->
+        <div class="card">
+            <span class="label">Google Search Strings</span>
+            <div class="prompt-text" id="searchStrings">site:medium.com "how I made money from"
+site:medium.com "how I made" "<span class="dynamic-keyword" id="k1">[Filter or 2nd keyword]</span>"
+site:medium.com "how I made money from" "<span class="dynamic-keyword" id="k2">[Filter or 2nd keyword]</span>"
+site:medium.com "what worked for me" "<span class="dynamic-keyword" id="k3">[Filter or 2nd keyword]</span>"
+site:medium.com "my strategy" "<span class="dynamic-keyword" id="k4">[Filter or 2nd keyword]</span>"</div>
+            
+            <button class="btn copy-btn" onclick="copyToClipboard(this)">Copy All Strings</button>
+        </div>
+    </div>
+
+    <script>
+        function updateStrings() {
+            const val = document.getElementById('keywordInput').value.trim();
+            const fallback = "[Filter or 2nd keyword]";
+            const displayVal = val === "" ? fallback : val;
+
+            document.getElementById('k1').innerText = displayVal;
+            document.getElementById('k2').innerText = displayVal;
+            document.getElementById('k3').innerText = displayVal;
+            document.getElementById('k4').innerText = displayVal;
+        }
+
+        function copyToClipboard(btn) {
+            const text = document.getElementById('searchStrings').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied to Clipboard!';
+                btn.classList.add('success');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('success');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

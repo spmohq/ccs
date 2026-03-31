@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networking Tool</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f0f4f8;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin: 0;
+            border-bottom: 4px solid #3498db;
+            display: inline-block;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e1e8ed;
+        }
+
+        .label {
+            display: block;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            margin-bottom: 15px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .prompt-text {
+            white-space: pre-wrap;
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            line-height: 1.5;
+        }
+
+        .dynamic-content {
+            color: #2980b9;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .copy-btn {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 3px 0 #2980b9;
+        }
+
+        .copy-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .success {
+            background-color: #27ae60 !important;
+            box-shadow: 0 3px 0 #1e8449 !important;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Networking</h1>
+    </header>
+
+    <div class="container">
+        <!-- Input Section -->
+        <div class="card">
+            <span class="label">Step 1: Input Post Details</span>
+            
+            <label class="label" for="platformInput">[Platform]</label>
+            <textarea id="platformInput" placeholder="e.g. LinkedIn, X, Facebook..." oninput="sync()"></textarea>
+
+            <label class="label" for="postInput">[Text of Post/Article]</label>
+            <textarea id="postInput" placeholder="Paste the content of the post or article here..." oninput="sync()"></textarea>
+        </div>
+
+        <!-- Prompt 1 -->
+        <div class="card">
+            <span class="label">Prompt#1</span>
+            <div class="prompt-text" id="p1Display">Context:
+You will be given a social media post published on <span id="outPlatform" class="dynamic-content">[Platform]</span> by a large or influential account.
+Role:
+You are a senior social media growth strategist with 15+ years of experience helping clients maximize visibility, credibility, and engagement on major platforms such as LinkedIn, Instagram, X (Twitter), Facebook, and TikTok.
+Objective:
+Write a thoughtful reply or comment to the post.
+Intention:
+The reply should:
+Show genuine understanding of the topic.
+Indicate that I also share valuable insights in my own posts and blog.
+Thank and appreciate the creator honestly, without excessive praise.
+Maintain dignity and professionalism.
+Never sound superior to the original author.
+If the post offers a new angle, teaching, or insight, acknowledge that I learned it from the post.
+If no new insight is present, thank the author for addressing the topic or solving the problem.
+
+Tasks:
+Read and analyze the provided post.
+Identify the main points, the problem(s) addressed, and any new angle or insight.
+Based on the analysis, write a reply or comment that:
+Thanks to the author sincerely.
+Mentions any new insight (or acknowledges the value of the topic/problem).
+Maintains a respectful, knowledgeable tone.
+
+Output:
+A brief analysis (bullet points).
+One to three reply/comment options suitable for the platform.
+
+TEXT:
+<span id="outPost" class="dynamic-content">[Text of Post/Article]</span></div>
+            <button class="btn copy-btn" onclick="copyPrompt('p1Display', this)">Copy Prompt #1</button>
+        </div>
+
+        <!-- Prompt 2 -->
+        <div class="card">
+            <span class="label">Prompt#2</span>
+            <div class="prompt-text" id="p2">Give me a "Balanced + humble learning tone" version comment.</div>
+            <button class="btn copy-btn" onclick="copyPrompt('p2', this)">Copy Prompt #2</button>
+        </div>
+
+        <!-- Prompt 3 -->
+        <div class="card">
+            <span class="label">Prompt#3</span>
+            <div class="prompt-text" id="p3">Rewrite the comment you provided in your previous answer in modern, natural, everyday conversational English as spoken in Kolkata, West Bengal, India — but without local slang, regional grammar, or phrasing that could confuse a global audience. Subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing — without slang, regional grammar, or loss of conservative authority. It must be easily understood by a 21-year-old.
+
+Tone: Balanced + humble learning tone</div>
+            <button class="btn copy-btn" onclick="copyPrompt('p3', this)">Copy Prompt #3</button>
+        </div>
+
+        <!-- Prompt 4 -->
+        <div class="card">
+            <span class="label">Prompt#4</span>
+            <div class="prompt-text" id="p4">In a table please give me a clear side-by-side comparison of the original comment and the rewritten version.</div>
+            <button class="btn copy-btn" onclick="copyPrompt('p4', this)">Copy Prompt #4</button>
+        </div>
+    </div>
+
+    <script>
+        function sync() {
+            const platform = document.getElementById('platformInput').value.trim();
+            const post = document.getElementById('postInput').value.trim();
+
+            document.getElementById('outPlatform').innerText = platform === "" ? "[Platform]" : platform;
+            document.getElementById('outPost').innerText = post === "" ? "[Text of Post/Article]" : post;
+        }
+
+        function copyPrompt(id, btn) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied to Clipboard!';
+                btn.classList.add('success');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('success');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
