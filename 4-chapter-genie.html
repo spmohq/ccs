@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter Genie</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f0f4f8;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin: 0;
+            border-bottom: 4px solid #3498db;
+            display: inline-block;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e1e8ed;
+        }
+
+        .label {
+            display: block;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .prompt-text {
+            white-space: pre-wrap;
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            line-height: 1.5;
+        }
+
+        .dynamic-content {
+            color: #2980b9;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .copy-btn {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 3px 0 #2980b9;
+        }
+
+        .copy-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .success {
+            background-color: #27ae60 !important;
+            box-shadow: 0 3px 0 #1e8449 !important;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Chapter Genie</h1>
+    </header>
+
+    <div class="container">
+        <!-- Dynamic Input Field -->
+        <div class="card">
+            <span class="label">[INSERT SECTION HERE]</span>
+            <textarea id="sectionInput" placeholder="Paste your ebook section content here..." oninput="syncPrompt()"></textarea>
+        </div>
+
+        <!-- Prompt 1 -->
+        <div class="card">
+            <span class="label">Prompt#1</span>
+            <div class="prompt-text" id="p1Display">Turn the following ebook section into a structured, ready-to-publish module.
+
+MODULE REQUIREMENTS
+- Add a clear title at the top
+- Add a short introductory description (2-3 lines, no heading)
+    • For INTRODUCTION sections: make it scroll-stopping; include a hook (question, mini anecdote, or scenario), highlight what the reader will gain, and excite them to continue
+    • For CONCLUSION sections: make it motivating; recap transformations/results, celebrate progress, and inspire immediate action
+    • For REGULAR sections: keep it concise, descriptive, and neutral
+- Insert the main content of the section
+    • For REGULAR sections: keep the original content unchanged
+    • For INTRODUCTION & CONCLUSION sections: you may **expand or adjust the wording slightly** to match the tone requirements, while keeping core ideas intact
+- Add a short concluding paragraph (2-3 lines, no heading)
+    • For INTRODUCTION: tease the upcoming content and build curiosity
+    • For CONCLUSION: reinforce the reader’s achievements and leave them empowered
+    • For REGULAR sections: summarize the key takeaway
+- Use subtle bold or italic highlights for important points
+
+SECTION TITLE REQUIREMENTS
+- Clearly communicate the central insight of the section
+- Avoid hype, exaggeration, or emotional manipulation
+- Avoid vague or abstract phrasing
+- Avoid clickbait curiosity framing
+- Be intellectually compelling but calm
+
+Content:
+<span id="p1Target" class="dynamic-content">[INSERT SECTION HERE]</span></div>
+            <button class="btn copy-btn" onclick="copyPrompt('p1Display', this)">Copy Prompt #1</button>
+        </div>
+
+        <!-- Prompt 2 -->
+        <div class="card">
+            <span class="label">Prompt#2</span>
+            <div class="prompt-text" id="p2">Rewrite the your previous answer in modern, natural, everyday conversational English as spoken in Kolkata, West Bengal, India — but without local slang, regional grammar, or phrasing that could confuse a global audience. It must be bold, direct and easily understood by a 21-year-old.
+
+Strict Rule:
+-> Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+-> Do not rewrite or modify any prompts included in the original answer. Keep them exactly as they are.</div>
+            <button class="btn copy-btn" onclick="copyPrompt('p2', this)">Copy Prompt #2</button>
+        </div>
+
+        <!-- Prompt 3 -->
+        <div class="card">
+            <span class="label">Prompt#3</span>
+            <div class="prompt-text" id="p3">In a table please give me a clear side-by-side comparison of the original text and the rewritten version.</div>
+            <button class="btn copy-btn" onclick="copyPrompt('p3', this)">Copy Prompt #3</button>
+        </div>
+
+        <!-- Prompt 4 -->
+        <div class="card">
+            <span class="label">Prompt#4</span>
+            <div class="prompt-text" id="p4">For this section, create a ready-to-publish Google Doc layout with suggested bold + italic highlights for key phrases, spacing optimized for mobile, and visually separated block quotes—so it will look perfect in Google Docs on first paste.</div>
+            <button class="btn copy-btn" onclick="copyPrompt('p4', this)">Copy Prompt #4</button>
+        </div>
+
+        <!-- Prompt 5 -->
+        <div class="card">
+            <span class="label">Prompt#5</span>
+            <div class="prompt-text" id="p5">Now generate the final document with your previous answer in a Google Docs–ready format using style markers.
+
+Strict rules:
+- Output ONLY the document
+- No explanations, no notes
+
+Formatting system (MANDATORY):
+
+- [H1] Section heading
+- [H2] Sub-section heading (if needed)
+- [BODY] Paragraph text
+
+- [BULLETS]
+  • Point 1
+  • Point 2
+
+- [CLOSING] Final closing line
+
+Spacing rules:
+- Keep clean spacing between all elements
+- Each tag must be on its own line
+
+Goal:
+This should be structured so I can quickly use “Find and Replace” in Google Docs to convert:
+[TITLE] → Title style  
+[H1] → Heading 1  
+[H2] → Heading 2</div>
+            <button class="btn copy-btn" onclick="copyPrompt('p5', this)">Copy Prompt #5</button>
+        </div>
+    </div>
+
+    <script>
+        function syncPrompt() {
+            const inputVal = document.getElementById('sectionInput').value;
+            const target = document.getElementById('p1Target');
+            target.innerText = inputVal.trim() === "" ? "[INSERT SECTION HERE]" : inputVal;
+        }
+
+        function copyPrompt(id, btn) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied to Clipboard!';
+                btn.classList.add('success');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('success');
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

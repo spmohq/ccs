@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Cover Page Layout Genie</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f0f4f8;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin: 0;
+            border-bottom: 4px solid #3498db;
+            display: inline-block;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e1e8ed;
+        }
+
+        .label {
+            display: block;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 70px;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            margin-bottom: 15px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .prompt-text {
+            white-space: pre-wrap;
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            line-height: 1.5;
+        }
+
+        .dynamic-insert {
+            color: #2980b9;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .copy-btn {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 3px 0 #2980b9;
+        }
+
+        .copy-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .success {
+            background-color: #27ae60 !important;
+            box-shadow: 0 3px 0 #1e8449 !important;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>PDF Cover Page Layout Genie</h1>
+    </header>
+
+    <div class="container">
+        <!-- Input Fields Card -->
+        <div class="card">
+            <span class="label">Step 1: Input Cover Details</span>
+            
+            <label class="label" for="inTitle">[Title]</label>
+            <textarea id="inTitle" placeholder="Enter Title..." oninput="sync()"></textarea>
+
+            <label class="label" for="inSubtitle">[Subtitle]</label>
+            <textarea id="inSubtitle" placeholder="Enter Subtitle..." oninput="sync()"></textarea>
+
+            <label class="label" for="inTagline">[Tagline]</label>
+            <textarea id="inTagline" placeholder="Enter Tagline..." oninput="sync()"></textarea>
+        </div>
+
+        <!-- Prompt Output Card -->
+        <div class="card">
+            <span class="label">Step 2: Copy Final Prompt</span>
+            <div class="prompt-text" id="masterPrompt">You are an expert PDF design assistant. I want you to create a complete cover page for my PDF. Please do the following in one output:
+
+1. Generate the "text content" for the cover page, including:
+   - Title: <span id="outTitle" class="dynamic-insert">[Title]</span>
+   - Subtitle: <span id="outSubtitle" class="dynamic-insert">[Subtitle]</span>
+   - Tagline: <span id="outTagline" class="dynamic-insert">[Tagline]</span>
+   - A placeholder for an image (leave blank space so I can add it manually)
+   - Author’s name: Siva Prasad Mukherjee
+
+2. Provide "step-by-step instructions" on how to design this cover page in Google Docs, assuming I have "zero experience". Include all practical details:
+   - Recommended fonts and font sizes for each element
+   - Alignment (left, center, right)
+   - Line spacing
+   - Placement of each element (title, subtitle, tagline, author name, image placeholder)
+   - Page setup (size, orientation, margins)
+   - Design best practices (color contrast, hierarchy, white space, readability)
+
+"Output format:"  
+- Section 1: Ready-to-use Cover Text (exactly as it will appear on the PDF)  
+- Section 2: Step-by-Step Google Docs Design Instructions  
+
+Make it "beginner-friendly", "easy to follow", and ensure the cover looks "professional and visually balanced". Use a clear and organized format for readability.</div>
+            
+            <button class="btn copy-btn" id="copyBtn" onclick="copyPrompt('masterPrompt', this)">Copy Final Prompt</button>
+        </div>
+    </div>
+
+    <script>
+        // Synchronize the input fields with the placeholders in the prompt
+        function sync() {
+            const fields = [
+                { id: 'inTitle', target: 'outTitle', fallback: '[Title]' },
+                { id: 'inSubtitle', target: 'outSubtitle', fallback: '[Subtitle]' },
+                { id: 'inTagline', target: 'outTagline', fallback: '[Tagline]' }
+            ];
+
+            fields.forEach(field => {
+                const val = document.getElementById(field.id).value.trim();
+                document.getElementById(field.target).innerText = val === "" ? field.fallback : val;
+            });
+        }
+
+        // Copy text to clipboard and provide visual feedback
+        function copyPrompt(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied to Clipboard!';
+                btn.classList.add('success');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('success');
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
