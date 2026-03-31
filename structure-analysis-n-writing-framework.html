@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Structure Analysis & Writing Framework</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #431407; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(249, 115, 22, 0.05);
+      --card-border: rgba(249, 115, 22, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #f97316; 
+      --accent-hover: #fb923c;
+      --accent-success: #10b981;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --input-bg: rgba(0, 0, 0, 0.3);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    /* Input Section Styles */
+    .input-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .input-group:last-child {
+      margin-bottom: 0;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--accent-primary);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      min-height: 100px;
+      resize: vertical;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    /* Prompt Card Styles */
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.9rem;
+      color: #fff7ed;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Button Styles */
+    .copy-button {
+      align-self: flex-end;
+      padding: 12px 24px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(249, 115, 22, 0.4);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Structure Analysis & Writing Framework</h1>
+    </header>
+
+    <div class="input-section">
+      <div class="input-group">
+        <label for="questionIn">[INSERT QUESTION HERE]</label>
+        <textarea id="questionIn" placeholder="Enter the audience's question..."></textarea>
+      </div>
+      <div class="input-group">
+        <label for="answerIn">[INSERT YOUR ANSWER HERE]</label>
+        <textarea id="answerIn" placeholder="Enter your detailed answer or insights..."></textarea>
+      </div>
+    </div>
+
+    <main>
+      <!-- Prompt 1 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #1</div>
+        <pre id="displayP1" class="prompt-text">My audience has asked me this question:
+[INSERT QUESTION HERE]
+
+My answer is:
+[INSERT YOUR ANSWER HERE]
+
+Please follow these steps:
+
+Step #1 — Logical Structure Analysis
+Answer the following using only the information from my answer:
+
+- What structured outline naturally emerges from my answer?
+- What is the strongest logical flow based strictly on what I’ve already written?
+- In what sequence should the ideas appear for maximum clarity and impact?
+- Do not create or infer any thesis I did not state. Use only my exact content.
+
+Step #2 — Article Writing Framework
+Provide the most suitable writing framework for turning my exact answer into an article tailored to my audience.
+Do not change, rewrite, or add any information.
+Only structure and frame what I have written.
+
+Step #3 — Article Outline
+Create a complete article outline based strictly on my answer.
+Include bullet lists specifying exactly what should appear in each section.
+Maintain my tone and logic. Do not rewrite the content—only organize it.</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt 2 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #2</div>
+        <pre id="displayP2" class="prompt-text">My audience has asked me this question:
+[INSERT QUESTION HERE]
+
+My answer is:
+[INSERT YOUR ANSWER HERE]
+
+Please follow these steps:
+
+Step#1 - Answer the following questions:
+
+- Create a structured outline based on this thesis and insights.
+- What is the strongest logical flow for this argument?
+- How should the ideas be sequenced for clarity and impact?
+
+Step#2 — Article Writing Framework
+Provide the most suitable writing framework for turning my exact answer into an article tailored to my audience.
+Do not change or add any new information.
+Only structure and frame what I’ve already written.
+
+Step#3 — Article Outline
+Create a complete article outline based strictly on my answer.
+Include bullet lists that specify exactly what should appear in every section.
+Maintain my tone and logic. Do not rewrite the content—only organize it.</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt 3 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #3</div>
+        <pre id="displayP3" class="prompt-text">My audience has asked me this question:
+[INSERT QUESTION HERE]
+
+Please follow these steps:
+
+Step #1 — Answer the Question
+Give a clear, accurate, audience-friendly answer to the question.
+
+Step #2 — Execution Process
+Provide a complete step-by-step execution process, starting from setup and continuing all the way through full completion.
+Include AI-assisted prompts for any steps that can be completed with the help of AI.
+
+Step #3 — Article Writing Framework
+Give me the most suitable writing framework for turning this answer into an article tailored to my audience.
+
+Step #4 — Article Outline
+Provide a full article outline, including bullet lists detailing all elements that should appear in each section.</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Framework Architect. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const questionIn = document.getElementById('questionIn');
+    const answerIn = document.getElementById('answerIn');
+    
+    const displayP1 = document.getElementById('displayP1');
+    const displayP2 = document.getElementById('displayP2');
+    const displayP3 = document.getElementById('displayP3');
+
+    const baseP1 = displayP1.textContent;
+    const baseP2 = displayP2.textContent;
+    const baseP3 = displayP3.textContent;
+
+    function updateDisplays() {
+      const qText = questionIn.value.trim() || '[INSERT QUESTION HERE]';
+      const aText = answerIn.value.trim() || '[INSERT YOUR ANSWER HERE]';
+
+      displayP1.textContent = baseP1.replace('[INSERT QUESTION HERE]', qText).replace('[INSERT YOUR ANSWER HERE]', aText);
+      displayP2.textContent = baseP2.replace('[INSERT QUESTION HERE]', qText).replace('[INSERT YOUR ANSWER HERE]', aText);
+      displayP3.textContent = baseP3.replace('[INSERT QUESTION HERE]', qText);
+    }
+
+    [questionIn, answerIn].forEach(el => el.addEventListener('input', updateDisplays));
+
+    document.querySelectorAll('.copy-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const text = button.parentElement.querySelector('.prompt-text').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const btnText = button.querySelector('.button-text');
+          const prevText = btnText.textContent;
+          btnText.textContent = 'Copied!';
+          button.classList.add('copied');
+          setTimeout(() => {
+            btnText.textContent = prevText;
+            button.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
