@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prospect Conversion Angle Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #065f46; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(20, 184, 166, 0.05);
+      --card-border: rgba(20, 184, 166, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #2dd4bf; 
+      --accent-hover: #5eead4;
+      --accent-success: #10b981;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --input-bg: rgba(0, 0, 0, 0.3);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--accent-primary);
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Input Section Styles */
+    .input-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+    }
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--accent-primary);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      min-height: 80px;
+      resize: vertical;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    .prompts-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Prompt Card Styles */
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.9rem;
+      color: #f0fdfa;
+      line-height: 1.5;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Button Styles */
+    .copy-button {
+      align-self: flex-end;
+      padding: 12px 24px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #042f2e;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(45, 212, 191, 0.3);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+      color: #fff;
+    }
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+
+    @media (max-width: 600px) {
+      .input-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Turn Unaware Prospects into Buyers</h1>
+      <p class="subtitle">Topic and Conversation Angle Generator</p>
+    </header>
+
+    <div class="input-section">
+      <div class="input-grid">
+        <div class="input-group">
+          <label for="prodIn">[Insert Product / Activity here]</label>
+          <textarea id="prodIn" placeholder="e.g. AI Prompt Engineering Course"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="audIn">[Insert Target Audience here]</label>
+          <textarea id="audIn" placeholder="e.g. Freelance Content Writers"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="awareIn">[Unaware / Problem-aware / Solution-aware]</label>
+          <textarea id="awareIn" placeholder="e.g. Problem-aware"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="goalIn">[Sell / Get signups / Encourage behavior / Other]</label>
+          <textarea id="goalIn" placeholder="e.g. Get signups"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <main class="prompts-stack">
+      
+      <!-- Prompt 1 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #1: Strategy Generator</div>
+        <pre id="displayP1" class="prompt-text">ROLE:
+You are an expert marketing strategist and customer psychology specialist who helps sellers create demand by shaping how prospects think about their problems and possibilities.
+
+OBJECTIVE:
+Your goal is to help me introduce the concept behind a product or activity in a way that makes prospective buyers or action-takers naturally realize they need it, even if they are currently unaware of the problem or the concept.
+
+You must do this by generating high-impact conversation angles and topic ideas, not by directly selling.
+
+INPUTS:
+Product / Activity: [Insert Product / Activity here]
+Target Audience: [Insert Target Audience here]
+Awareness Level (optional): [Unaware / Problem-aware / Solution-aware]
+Goal (optional): [Sell / Get signups / Encourage behavior / Other]
+
+CORE INSTRUCTIONS:
+
+1. From the topic pool provided below, select the 10 to 15 most relevant topics for the given product and audience.
+
+2. Prioritize topics that:
+
+   * Reveal hidden problems
+   * Challenge current thinking
+   * Create “aha” moments
+   * Increase perceived need
+
+3. For each selected topic, generate:
+
+   * A clear explanation tailored to the audience
+   * 1 to 2 conversation angles or thought-provoking questions
+   * A subtle psychological trigger being activated (for example: loss aversion, curiosity, identity, fear of missing out, etc.)
+
+4. Keep everything:
+
+   * Practical and usable in real conversations, sales, or content
+   * Easy to understand (avoid jargon)
+   * Non-salesy (no direct pitching language)
+
+OUTPUT FORMAT:
+For each topic:
+
+Topic:
+Why it matters for this audience:
+Conversation Angles / Questions:
+--------------------------------
+
+*
+
+Psychological Trigger Used:
+
+OPTIONAL ENHANCEMENT:
+At the end, provide:
+
+Top 3 Most Powerful Angles:
+Explain which 3 topics are most likely to create immediate impact and why.
+
+TOPIC POOL:
+
+Customer Reality and Context
+
+* Daily routines and habits
+* Common frustrations in their lifestyle or work
+* Time constraints and pressures
+* Workarounds they currently use
+* “Good enough” solutions they have accepted
+
+Problems and Pain Points
+
+* Visible problems they already know
+* Hidden or ignored problems
+* Inefficiencies they do not notice
+* Long-term consequences of small issues
+* Emotional pain (stress, anxiety, frustration)
+
+Missed Opportunities
+
+* What they are losing by not changing
+* Time they could save
+* Money they could earn or save
+* Growth or improvement they are missing
+* Competitive disadvantage if relevant
+
+Desires and Aspirations
+
+* What they wish was easier
+* Ideal version of their life or work
+* Personal or professional goals
+* Comfort, convenience, or status they want
+* Emotional outcomes (peace of mind, confidence, freedom)
+
+Current Solutions and Alternatives
+
+* Tools or methods they currently use
+* Limitations of those solutions
+* Why those methods are outdated or inefficient
+* Trade-offs they are accepting
+* Misconceptions about what works
+
+New Possibilities and Trends
+
+* Emerging ways of doing things
+* Industry trends or shifts
+* Smarter or more modern approaches
+* What early adopters are doing differently
+* Future direction of the space
+
+Concept Behind the Product
+
+* The core idea or principle
+* Why this concept exists
+* The problem it was designed to solve
+* The logic behind how it works
+* Simple analogies to explain it
+
+Education and Awareness
+
+* How the concept works in simple terms
+* Key facts or insights they did not know
+* Myths versus reality
+* Common misunderstandings
+* “Aha” moments that change perspective
+
+Benefits and Outcomes
+
+* Practical benefits (time, money, efficiency)
+* Emotional benefits (relief, confidence, happiness)
+* Short-term versus long-term gains
+* Everyday impact
+* Transformation (before versus after life)
+
+Use Cases and Scenarios
+
+* Situations where the product is useful
+* Real-life examples
+* “Imagine if” scenarios
+* Different types of users and how they benefit
+* Edge cases (unexpected uses)
+
+Social Proof and Validation
+
+* What other people are experiencing
+* Success stories
+* Testimonials or feedback themes
+* Adoption trends
+* People like you are already using this
+
+Trust and Credibility
+
+* Expertise behind the product
+* Research or data supporting it
+* Brand story or origin
+* Transparency in how it works
+* Reliability and consistency
+
+Risk Reduction
+
+* Ease of trying or adopting
+* Guarantees or safety nets
+* Learning curve or lack of it
+* Support available
+* Reversibility (low commitment)
+
+Comparison and Differentiation
+
+* How this differs from alternatives
+* What makes it better or simpler
+* Unique approach or innovation
+* Why competitors fall short
+* Value versus cost comparison
+
+Cost of Inaction
+
+* What happens if they do nothing
+* Long-term risks or losses
+* Increasing difficulty over time
+* Missed timing or opportunities
+* Hidden costs of staying the same
+
+Identity and Self-Perception
+
+* People like you typically
+* Smart, efficient, forward-thinking choices
+* Belonging to a certain group
+* Professional or personal identity
+* Pride in making better decisions
+
+Convenience and Ease
+
+* Simplicity of use
+* Time to get started
+* Effort saved
+* Accessibility
+* Integration into their routine
+
+Emotional Triggers
+
+* Fear (missing out, falling behind)
+* Relief (problem solved)
+* Excitement (new possibility)
+* Confidence (making the right choice)
+* Control (feeling in charge)
+
+Practical Details (Light Touch)
+
+* How it fits into their workflow
+* Basic how it works in practice
+* What they need to start
+* Expected results timeline
+* Scalability or flexibility
+
+Timing and Urgency
+
+* Why now is a good time
+* External changes driving need
+* Limited opportunities if real
+* Seasonal or situational relevance
+* Momentum or trends
+
+Call-to-Action Context
+
+* Ways to try or explore
+* Low-commitment entry points
+* Next simple step
+* Options available
+* Support during onboarding</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt 2 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #2</div>
+        <pre class="prompt-text">Generate 5 other variants</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Marketing Blueprint Genie. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const prodIn = document.getElementById('prodIn');
+    const audIn = document.getElementById('audIn');
+    const awareIn = document.getElementById('awareIn');
+    const goalIn = document.getElementById('goalIn');
+    const displayP1 = document.getElementById('displayP1');
+
+    const baseP1 = displayP1.textContent;
+
+    function updateDisplay() {
+      const p = prodIn.value.trim() || '[Insert Product / Activity here]';
+      const a = audIn.value.trim() || '[Insert Target Audience here]';
+      const aw = awareIn.value.trim() || '[Unaware / Problem-aware / Solution-aware]';
+      const g = goalIn.value.trim() || '[Sell / Get signups / Encourage behavior / Other]';
+
+      displayP1.textContent = baseP1
+        .replace('[Insert Product / Activity here]', p)
+        .replace('[Insert Target Audience here]', a)
+        .replace('[Unaware / Problem-aware / Solution-aware]', aw)
+        .replace('[Sell / Get signups / Encourage behavior / Other]', g);
+    }
+
+    [prodIn, audIn, awareIn, goalIn].forEach(el => el.addEventListener('input', updateDisplay));
+
+    document.querySelectorAll('.copy-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const textToCopy = button.parentElement.querySelector('.prompt-text').textContent;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const btnText = button.querySelector('.button-text');
+          const prevText = btnText.textContent;
+          btnText.textContent = 'Copied!';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            btnText.textContent = prevText;
+            button.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
