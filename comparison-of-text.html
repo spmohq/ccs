@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison of Text</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f0f4f8;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin: 0;
+            border-bottom: 4px solid #3498db;
+            display: inline-block;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .prompt-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .prompt-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e1e8ed;
+            transition: transform 0.2s;
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .label {
+            display: block;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .prompt-text {
+            white-space: pre-wrap;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .copy-btn {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 3px 0 #2980b9;
+        }
+
+        .copy-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        .success {
+            background-color: #27ae60 !important;
+            box-shadow: 0 3px 0 #1e8449 !important;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Comparison of Text</h1>
+    </header>
+
+    <div class="prompt-grid">
+        <div class="prompt-card">
+            <span class="label">Prompt</span>
+            <div class="prompt-text" id="p1">In a table please give me a clear side-by-side comparison of the original text and the rewritten version.</div>
+            <button class="btn copy-btn" onclick="copyPrompt('p1', this)">Copy Prompt</button>
+        </div>
+    </div>
+
+    <script>
+        function copyPrompt(id, btn) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied to Clipboard!';
+                btn.classList.add('success');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('success');
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed', err);
+            });
+        }
+    </script>
+</body>
+</html>
