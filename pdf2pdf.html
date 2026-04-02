@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF2PDF Genie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #065f46; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(20, 184, 166, 0.05);
+      --card-border: rgba(20, 184, 166, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #2dd4bf; 
+      --accent-hover: #5eead4;
+      --accent-success: #10b981;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--accent-primary);
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .prompts-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Prompt Card Styles */
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 20px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #f0fdfa;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Button Styles */
+    .copy-button {
+      align-self: flex-end;
+      padding: 10px 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #042f2e;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(45, 212, 191, 0.3);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+      color: #fff;
+    }
+    .icon { width: 16px; height: 16px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>PDF2PDF Genie</h1>
+      <p class="subtitle">Extraction & Transformation Toolkit</p>
+    </header>
+
+    <main class="prompts-stack">
+      
+      <!-- Prompt 1 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #1</div>
+        <pre class="prompt-text">Read and understand the uploaded document. What does it teach? What does it recommend to do and why?</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 2 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #2</div>
+        <pre class="prompt-text">How to do it, according to this uploaded document?</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 3 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #3</div>
+        <pre class="prompt-text">Please provide a step-by-step execution process to do it, starting from the initial setup and continuing through full completion. Also include AI-assisted prompts for any steps that can be completed with the help of ChatGPT. Teach it live. Each instruction must be written as if you are guiding the user in real time while they are using their phone or computer, starting from setup and continuing through complete execution.</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 4 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #4</div>
+        <pre class="prompt-text">Could you please turn this step-by-step execution process into a complete and sellable how-to guide PDF without changing the text of the step-by-step execution process you gave me in your previous reply? Please reply with the upgraded version directly in this chat (don’t provide any downloadable file).</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 5 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #5</div>
+        <pre class="prompt-text">Upgrade it into a more polished, branded version (cover page, sections, formatting, etc.) while still keeping your exact text intact. Please reply with the upgraded version directly in this chat (don’t provide any downloadable file).</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 6 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #6</div>
+        <pre class="prompt-text">🪄 TASK
+
+please change the title of this PDF, ensure that it follows these rules:
+
+1. Reader-first focus
+   - Center the title on what the reader gets, learns, or feels.
+   - Optimize for value, curiosity, and emotion.
+   - Keep asking: “Why would a reader click?” and “What’s in it for them?”
+
+2. Avoid clickbait
+   - Be clickworthy, not clickbait.
+   - The title must match the story’s promise — no bait-and-switch.
+   - Intrigue through insight, not deception.
+
+3. Community-driven insight
+   - Tailor tone and phrasing to the micro-audience.
+   - Reflect the stylistic preferences of the niche (e.g., self-improvement, tech, design, writing, mental health, etc.).
+   - Example micro-patterns:
+     - Tech readers → prefer clarity + innovation (“How X Works”)
+     - Productivity readers → prefer transformation (“I Tried X So You Don’t Have To”)
+     - Design readers → prefer subtle reflection (“The Art of X”)
+
+4. Title structure
+   🧠 Title = Reader value + clarity + emotional hook</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 7 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #7</div>
+        <pre class="prompt-text">Now generate the final document with your previous answer in a Google Docs–ready format using style markers.
+
+Strict rules:
+- Output ONLY the document
+- No explanations, no notes
+
+Formatting system (MANDATORY):
+
+- [H1] Section heading
+- [H2] Sub-section heading (if needed)
+- [BODY] Paragraph text
+
+- [BULLETS]
+  • Point 1
+  • Point 2
+
+- [CLOSING] Final closing line
+
+Spacing rules:
+- Keep clean spacing between all elements
+- Each tag must be on its own line
+
+Goal:
+This should be structured so I can quickly use “Find and Replace” in Google Docs to convert:
+[TITLE] → Title style  
+[H1] → Heading 1  
+[H2] → Heading 2</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 8 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #8</div>
+        <pre class="prompt-text">You are an expert PDF design assistant. I want you to create a complete cover page for this PDF. Please do the following in one output:
+
+1. Generate the "text content" for the cover page, including:
+   - Title: 
+   - Subtitle:
+   - Tagline:
+   - A placeholder for an image (leave blank space so I can add it manually)
+   - Author’s name: Siva Prasad Mukherjee
+
+2. Provide "step-by-step instructions" on how to design this cover page in Google Docs, assuming I have "zero experience". Include all practical details:
+   - Recommended fonts and font sizes for each element
+   - Alignment (left, center, right)
+   - Line spacing
+   - Placement of each element (title, subtitle, tagline, author name, image placeholder)
+   - Page setup (size, orientation, margins)
+   - Design best practices (color contrast, hierarchy, white space, readability)
+
+"Output format:"  
+- Section 1: Ready-to-use Cover Text (exactly as it will appear on the PDF)  
+- Section 2: Step-by-Step Google Docs Design Instructions  
+
+Make it "beginner-friendly", "easy to follow", and ensure the cover looks "professional and visually balanced". Use a clear and organized format for readability.</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 9 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #9</div>
+        <pre class="prompt-text">You are an expert PDF design assistant. I want you to create a complete cover page for this PDF. Please do the following in one output:
+
+1. Generate the "text content" for the cover page, including:
+   - Title: 
+   - Subtitle:
+   - Tagline:
+   - A placeholder for an image (leave blank space so I can add it manually)
+   - Author’s name: Siva Prasad Mukherjee
+
+2. Provide "step-by-step instructions" on how to design this cover page in Google Docs, assuming I have "zero experience". Include all practical details:
+   - Recommended fonts and font sizes for each element
+   - Alignment (left, center, right)
+   - Line spacing
+   - Placement of each element (title, subtitle, tagline, author name, image placeholder)
+   - Page setup (size, orientation, margins)
+   - Design best practices (color contrast, hierarchy, white space, readability)
+
+"Output format:"  
+- Section 1: Ready-to-use Cover Text (exactly as it will appear on the PDF)  
+- Section 2: Step-by-Step Google Docs Design Instructions  
+
+Make it "beginner-friendly", "easy to follow", and ensure the cover looks "professional and visually balanced". Use a clear and organized format for readability.</pre>
+        <button class="copy-button">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> PDF Evolution Genie. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    document.querySelectorAll('.copy-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const textToCopy = button.parentElement.querySelector('.prompt-text').textContent;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const btnText = button.querySelector('.button-text');
+          const prevText = btnText.textContent;
+          btnText.textContent = 'Copied!';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            btnText.textContent = prevText;
+            button.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
