@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Side Hustler's PDF - System Genie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --input-bg: rgba(0, 0, 0, 0.3);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    .container { max-width: 850px; width: 100%; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 50px; }
+    h1 { font-size: 2.5rem; font-weight: 700; color: var(--text-heading); text-transform: uppercase; }
+
+    .input-wrapper { margin-bottom: 15px; margin-top: 30px; }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--accent-primary);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      min-height: 80px;
+      resize: vertical;
+    }
+    textarea:focus { outline: none; border-color: var(--accent-primary); }
+
+    .prompts-stack { display: flex; flex-direction: column; gap: 30px; }
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover { transform: translateY(-5px); border-color: var(--accent-primary); }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .prompt-label::after { content: ""; height: 1px; flex-grow: 1; background: var(--card-border); }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 20px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.9rem;
+      color: #ecfdf5;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .copy-button {
+      align-self: flex-end;
+      padding: 10px 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #042f2e;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+      text-transform: uppercase;
+    }
+    .copy-button.copied { background-color: var(--accent-success); color: #fff; }
+    footer { margin-top: 60px; text-align: center; color: var(--text-secondary); font-size: 0.85rem; padding-bottom: 40px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Side Hustler's PDF</h1>
+    </header>
+
+    <main class="prompts-stack">
+      
+      <!-- Prompt 1 Area -->
+      <div class="input-wrapper">
+        <label for="inputP1">[Selected Idea]</label>
+        <textarea id="inputP1" placeholder="Paste the selected side hustle idea here..."></textarea>
+      </div>
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #1</div>
+        <pre id="displayP1" class="prompt-text">Context:
+
+[Selected Idea]
+
+My question is:
+
+How to do that?
+
+Please answer it and provide a step-by-step execution process, starting from setup and continuing through full completion.
+
+Also include AI-assisted prompts for any steps that can be completed with the help of ChatGPT's assistance.
+
+Please answer this prompt in the most spontaneous and natural sounding modern, everyday conversational Bengali as spoken in Kolkata, West Bengal, India that can be understood by an 21 year old but contains the international standards of language.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.</pre>
+        <button class="copy-button" onclick="copyPrompt('displayP1', this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 2 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #2</div>
+        <pre class="prompt-text">Could you please turn this step-by-step execution process into a complete and sellable how-to guide PDF without changing the text of the step-by-step execution process you gave me in your previous reply? Please reply with the upgraded version directly in this chat (don’t provide any downloadable file).
+
+Please answer this prompt in the most spontaneous and natural sounding modern, everyday conversational Bengali as spoken in Kolkata, West Bengal, India that can be understood by an 21 year old but contains the international standards of language.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 3 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #3</div>
+        <pre class="prompt-text">🪄 TASK
+
+please change the title of this PDF, ensure that it follows these rules:
+
+1. Reader-first focus
+   - Center the title on what the reader gets, learns, or feels.
+   - Optimize for value, curiosity, and emotion.
+   - Keep asking: “Why would a reader click?” and “What’s in it for them?”
+
+2. Avoid clickbait
+   - Be clickworthy, not clickbait.
+   - The title must match the story’s promise — no bait-and-switch.
+   - Intrigue through insight, not deception.
+
+3. Community-driven insight
+   - Tailor tone and phrasing to the micro-audience.
+   - Reflect the stylistic preferences of the niche (e.g., self-improvement, tech, design, writing, mental health, etc.).
+   - Example micro-patterns:
+     - Tech readers → prefer clarity + innovation (“How X Works”)
+     - Productivity readers → prefer transformation (“I Tried X So You Don’t Have To”)
+     - Design readers → prefer subtle reflection (“The Art of X”)
+
+4. Title structure
+   🧠 Title = Reader value + clarity + emotional hook
+
+Please answer this prompt in the most spontaneous and natural sounding modern, everyday conversational Bengali as spoken in Kolkata, West Bengal, India that can be understood by an 21 year old but contains the international standards of language.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 4 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #4</div>
+        <pre class="prompt-text">Upgrade it into a more polished, branded version (cover page, sections, formatting, etc.) while still keeping my exact text intact. Please reply with the upgraded version directly in this chat (don’t provide any downloadable file).</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 5 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #5</div>
+        <pre class="prompt-text">You are an expert PDF design assistant. I want you to create a complete cover page for this PDF. Please do the following in one output:
+
+1. Generate the "text content" for the cover page, including:
+   - Title: 
+   - Subtitle:
+   - Tagline:
+   - A placeholder for an image (leave blank space so I can add it manually)
+   - Author’s name: Siva Prasad Mukherjee
+
+2. Provide "step-by-step instructions" on how to design this cover page in Google Docs, assuming I have "zero experience". Include all practical details:
+   - Recommended fonts and font sizes for each element
+   - Alignment (left, center, right)
+   - Line spacing
+   - Placement of each element (title, subtitle, tagline, author name, image placeholder)
+   - Page setup (size, orientation, margins)
+   - Design best practices (color contrast, hierarchy, white space, readability)
+
+"Output format:"  
+- Section 1: Ready-to-use Cover Text (exactly as it will appear on the PDF)  
+- Section 2: Step-by-Step Google Docs Design Instructions  
+
+Make it "beginner-friendly", "easy to follow", and ensure the cover looks "professional and visually balanced". Use a clear and organized format for readability.
+
+Please answer this prompt in the most spontaneous and natural sounding modern, everyday conversational Bengali as spoken in Kolkata, West Bengal, India that can be understood by an 21 year old but contains the international standards of language.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 6 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #6</div>
+        <pre class="prompt-text">ROLE
+You are an professional AI image prompt designer specializing in creating clean, modern, high-quality cover visuals for digital products.
+
+OBJECTIVE
+Create a visually compelling 3:4 vertical cover-page image (2250 × 3000 px) for this PDF using the provided content and design direction.
+
+INPUTS
+
+1. Title:
+2. Subtitle: 
+3. Tagline: 
+4. Description / Intro Blurb: 
+
+INSTRUCTIONS
+
+Design a clean, modern, and professional cover image that visually represents the core theme, promise, and transformation implied in the inputs.
+
+• Style: Minimal, elegant, and uncluttered
+• Layout: Maintain a clear visual hierarchy with ample negative space, especially at the top and center for text placement
+• Composition: Include a strong focal point that symbolizes learning, clarity, growth, or step-by-step guidance
+• Color Palette: Use calm, modern, and trustworthy tones (e.g., soft blues, muted greens, warm neutrals, subtle gradients)
+• Depth: Apply soft gradients, gentle lighting, and subtle shadows for a premium feel
+• Typography Placement: Ensure the layout naturally accommodates the Title, Subtitle, and Tagline without overcrowding
+• Visual Tone: Clean, intelligent, and inspiring—not overly decorative or busy
+
+CONTENT ALIGNMENT
+
+• The visual concept must align with the Title and Subtitle
+• The emotional tone should reflect the Tagline
+• The overall theme should be informed by the Description / Intro Blurb
+
+CONSTRAINTS
+
+• Avoid clutter, harsh contrasts, or overly complex elements
+• Do not include excessive objects or distracting details
+• Maintain a balanced, polished, and modern aesthetic
+
+OUTPUT
+
+Generate a single, cohesive image that is ready to be used as a professional PDF cover page.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 7 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #7</div>
+        <pre class="prompt-text">Please write an Introduction to introduce this side hustle's concept, what it does, how profitable and easy it is etc. in details.
+
+Please answer this prompt in the most spontaneous and natural sounding modern, everyday conversational Bengali as spoken in Kolkata, West Bengal, India that can be understood by an 21 year old but contains the international standards of language.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 8 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #8</div>
+        <pre class="prompt-text">Now generate the final document with your previous answer in a Google Docs–ready format using style markers.
+
+Strict rules:
+- Output ONLY the document
+- No explanations, no notes
+
+Formatting system (MANDATORY):
+
+- [H1] Section heading
+- [H2] Sub-section heading (if needed)
+- [BODY] Paragraph text
+
+- [BULLETS]
+  • Point 1
+  • Point 2
+
+- [CLOSING] Final closing line
+
+Spacing rules:
+- Keep clean spacing between all elements
+- Each tag must be on its own line
+
+Goal:
+This should be structured so I can quickly use “Find and Replace” in Google Docs to convert:
+[TITLE] → Title style  
+[H1] → Heading 1  
+[H2] → Heading 2</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 9 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #9</div>
+        <pre class="prompt-text">Please write a conclusion to conclude this step by step teaching with an insightful advice of what to do next to continue and grow with this side hustle .
+
+Please answer this prompt in the most spontaneous and natural sounding modern, everyday conversational Bengali as spoken in Kolkata, West Bengal, India that can be understood by an 21 year old but contains the international standards of language.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 10 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #10</div>
+        <pre class="prompt-text">Now generate the final document with your previous answer in a Google Docs–ready format using style markers.
+
+Strict rules:
+- Output ONLY the document
+- No explanations, no notes
+
+Formatting system (MANDATORY):
+
+- [H1] Section heading
+- [H2] Sub-section heading (if needed)
+- [BODY] Paragraph text
+
+- [BULLETS]
+  • Point 1
+  • Point 2
+
+- [CLOSING] Final closing line
+
+Spacing rules:
+- Keep clean spacing between all elements
+- Each tag must be on its own line
+
+Goal:
+This should be structured so I can quickly use “Find and Replace” in Google Docs to convert:
+[TITLE] → Title style  
+[H1] → Heading 1  
+[H2] → Heading 2</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 11 Area -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #11</div>
+        <pre class="prompt-text">Please give me the bullet-list of all the steps of the execution process in this pdf along with their serial numbers.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 12 Area -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #12</div>
+        <pre class="prompt-text">Teach Step#1 live.
+
+Each instruction must be written as if you are guiding the user live, in real time, while they are using their phone or computer, starting from setup and continuing through full completion.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.
+
+Start teaching this step with an Introduction without title and conclude without title with proper transition.
+
+Please answer this prompt in the most spontaneous and natural sounding modern, everyday conversational Bengali as spoken in Kolkata, West Bengal, India that can be understood by an 21 year old but contains the international standards of language.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 13 Area -->
+      <div class="input-wrapper">
+        <label for="inputP13">[Side Hustle Name]</label>
+        <textarea id="inputP13" placeholder="Enter the side hustle name here..."></textarea>
+      </div>
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #13</div>
+        <pre id="displayP13" class="prompt-text">Now generate the final document with your previous answer in a Google Docs–ready format using style markers.
+
+Strict rules:
+- Output ONLY the document
+- No explanations, no notes
+
+Formatting system (MANDATORY):
+
+- [H1] Section heading
+- [H2] Sub-section heading (if needed)
+- [BODY] Paragraph text
+
+- [BULLETS]
+  • Point 1
+  • Point 2
+
+- [CLOSING] Final closing line
+
+Spacing rules:
+- Keep clean spacing between all elements
+- Each tag must be on its own line
+
+Goal:
+This should be structured so I can quickly use “Find and Replace” in Google Docs to convert:
+[TITLE] → Title style  
+[H1] → Heading 1  
+[H2] → Heading 2</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 14 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #14</div>
+        <pre class="prompt-text">Teach Next Step live.
+
+Each instruction must be written as if you are guiding the user live, in real time, while they are using their phone or computer, starting from setup and continuing through full completion.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.
+
+Start teaching this step with an Introduction without title and conclude without title with proper transition.
+
+Please answer this prompt in the most spontaneous and natural sounding modern, everyday conversational Bengali as spoken in Kolkata, West Bengal, India that can be understood by an 21 year old but contains the international standards of language.
+
+Strict Rules:
+Must subtly reflect Kolkata conversational cadence through sentence rhythm and phrasing by using slightly formal, polite, and smoothly flowing sentence structures, with balanced pacing and no abrupt or overly casual wording — without slang, regional grammar, or loss of conservative authority.
+
+• Always use the formal “আপনি”, not the informal “তুমি.” The address is formal, but the tone should remain warm, conversational, and approachable.
+• The voice should be bold, direct, also should feel like a close friend and a trusted authority, speaking one-on-one with the reader in a natural, face-to-face style.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 15 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #15</div>
+        <pre class="prompt-text">Now generate the final document with your previous answer in a Google Docs–ready format using style markers.
+
+Strict rules:
+- Output ONLY the document
+- No explanations, no notes
+
+Formatting system (MANDATORY):
+
+- [H1] Section heading
+- [H2] Sub-section heading (if needed)
+- [BODY] Paragraph text
+
+- [BULLETS]
+  • Point 1
+  • Point 2
+
+- [CLOSING] Final closing line
+
+Spacing rules:
+- Keep clean spacing between all elements
+- Each tag must be on its own line
+
+Goal:
+This should be structured so I can quickly use “Find and Replace” in Google Docs to convert:
+[TITLE] → Title style  
+[H1] → Heading 1  
+[H2] → Heading 2</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Side Hustle Builder Genie. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const p1In = document.getElementById('inputP1');
+    const d1 = document.getElementById('displayP1');
+    const b1 = d1.textContent;
+
+    p1In.addEventListener('input', () => {
+      d1.textContent = b1.replace('[Selected Idea]', p1In.value.trim() || '[Selected Idea]');
+    });
+
+    function copyPrompt(id, btn) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+
+    function copyPromptStatic(btn) {
+      const text = btn.parentElement.querySelector('.prompt-text').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
