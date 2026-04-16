@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tree of Project Data - Management Genie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--accent-primary);
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .prompts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    /* Prompt Card Styles */
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 15px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 1.1rem;
+      color: #f0fdfa;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+    
+    /* Button Styles */
+    .copy-button {
+      align-self: center;
+      padding: 10px 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #042f2e;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+      color: #fff;
+    }
+    .icon { width: 16px; height: 16px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Tree of Project Data</h1>
+      <p class="subtitle">Reference Identifiers</p>
+    </header>
+
+    <main class="prompts-grid">
+      
+      <!-- Prompt 1 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #1</div>
+        <pre class="prompt-text">Source</pre>
+        <button class="copy-button">
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 2 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #2</div>
+        <pre class="prompt-text">PP</pre>
+        <button class="copy-button">
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 3 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #3</div>
+        <pre class="prompt-text">LM</pre>
+        <button class="copy-button">
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 4 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #4</div>
+        <pre class="prompt-text">CC</pre>
+        <button class="copy-button">
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 5 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #5</div>
+        <pre class="prompt-text">CP-CC</pre>
+        <button class="copy-button">
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 6 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #6</div>
+        <pre class="prompt-text">CP-PP</pre>
+        <button class="copy-button">
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 7 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #7</div>
+        <pre class="prompt-text">CP-LM</pre>
+        <button class="copy-button">
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 8 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #8</div>
+        <pre class="prompt-text">Public</pre>
+        <button class="copy-button">
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+      <!-- Prompt 9 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #9</div>
+        <pre class="prompt-text">Private</pre>
+        <button class="copy-button">
+          <span class="button-text">Copy</span>
+        </button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Project Data Genie. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    document.querySelectorAll('.copy-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const textToCopy = button.parentElement.querySelector('.prompt-text').textContent;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const btnText = button.querySelector('.button-text');
+          const prevText = btnText.textContent;
+          
+          btnText.textContent = 'Copied!';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            btnText.textContent = prevText;
+            button.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
