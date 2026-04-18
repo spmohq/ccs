@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SOP to Lead Magnet Genie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --input-bg: rgba(0, 0, 0, 0.3);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    /* Input Section Styles */
+    .input-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--accent-primary);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    textarea {
+      width: 100%;
+      padding: 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+      min-height: 150px;
+      resize: vertical;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    .prompts-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Prompt Card Styles */
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #ecfdf5;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    
+    /* Scrollbar for long prompts */
+    .prompt-text::-webkit-scrollbar {
+      width: 8px;
+    }
+    .prompt-text::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .prompt-text::-webkit-scrollbar-thumb {
+      background: var(--card-border);
+      border-radius: 4px;
+    }
+
+    /* Button Styles */
+    .copy-button {
+      align-self: flex-end;
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>SOP to Lead Magnet</h1>
+    </header>
+
+    <div class="input-section">
+      <label for="sopInput">[PASTE YOUR SOP HERE]</label>
+      <textarea id="sopInput" placeholder="Paste the step-by-step instructions or SOP content here..."></textarea>
+    </div>
+
+    <main class="prompts-stack">
+      
+      <!-- Prompt 1 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #1: Conversion Strategy</div>
+        <pre id="displayP1" class="prompt-text">You are an elite direct-response content strategist, lead magnet creator, and non-fiction ebook positioning expert.
+
+Your task is to convert a Standard Operating Procedure (SOP) into a high-converting Lead Magnet designed to generate desire and drive readers to purchase the full SOP.
+
+OBJECTIVE:
+The Lead Magnet should NOT reveal the detailed execution steps. Instead, it should create clarity, curiosity, and urgency so the reader feels, "I need the full SOP."
+
+INPUT:
+I will provide you with a SOP.
+
+GENERATE THE FOLLOWING:
+
+1. A highly compelling TITLE
+2. A clear, benefit-driven SUBTITLE
+3. A concise DESCRIPTION / INTRO BLURB
+4. The full Lead Magnet content structured into sections
+
+POSITIONING STRUCTURE:
+
+* Title = The CORE PROBLEM or DESIRED OUTCOME (bold, clear, outcome-driven, instantly understandable)
+* Subtitle = The UNIQUE MECHANISM or PROMISE (highlight simplicity, speed, or advantage)
+* Description = The TARGET AUDIENCE + RESULT (who it is for + what they will achieve)
+
+LEAD MAGNET CONTENT STRUCTURE:
+
+Section 1: Hook (Attention-Grabbing Opening)
+Start with a strong, pattern-breaking hook that highlights a painful problem or a desired outcome.
+
+Section 2: Problem Agitation
+Deeply describe the reader’s struggle, confusion, or frustration related to this problem.
+
+Section 3: Introduce the Process (The Solution)
+Present the SOP as a clear, structured solution. Give the process a simple, memorable name if possible.
+
+Section 4: High-Level Step Breakdown
+
+* Mention the number of steps in the process
+* Briefly explain what happens in each step
+* DO NOT reveal detailed execution, formulas, or exact instructions
+* Focus on clarity, not completeness
+
+Section 5: Why This Works
+Explain why this process is effective using logic, simple psychology, or real-world reasoning.
+
+Section 6: Ideal User and Use Case
+Clearly define:
+
+* Who this process is for
+* When they should use it
+* What results they can expect
+
+Section 7: Call-To-Action (CTA Page)
+Create a strong, persuasive call-to-action that encourages the reader to buy the full SOP.
+
+CTA FORMAT:
+Start executing this process like a pro using AI—get the complete step-by-step system inside "[Paid Product Name]": [URL]
+
+TITLE, SUBTITLE, AND BLURB RULES:
+
+* Do NOT be vague or generic
+* Do NOT use poetic or abstract language
+* Focus on clarity, specificity, and market appeal
+* Keep it simple, direct, and conversion-focused
+* Avoid fluff
+* Make it feel like a premium paid product
+
+OPTIONAL OPTIMIZATION:
+
+* Use power words like: "Simple", "Proven", "Step-by-Step", "Without", "Even If"
+* Make the title instantly understandable and scroll-stopping
+
+SECTION TITLE REQUIREMENTS:
+
+Each section title must:
+
+* Be specific and outcome-driven
+* Clearly communicate what the section delivers
+* Avoid vague labels such as "Introduction" or "Overview"
+* Reflect its role in building desire and understanding
+* Maintain logical flow from problem to solution to action
+
+STYLE GUIDELINES:
+
+* Write in clear, modern, conversational English
+* Avoid jargon and unnecessary complexity
+* Maintain curiosity without giving away the full method
+* Focus on clarity, emotional pull, and conversion intent
+* Use short paragraphs for readability
+
+CRITICAL RULE:
+
+* NEVER reveal the detailed step-by-step execution process
+* Do NOT include exact instructions, formulas, or full workflows
+* Your goal is to sell the mechanism, not give it away
+
+FINAL INSTRUCTION:
+
+Generate 3 variations of the full Lead Magnet.
+
+Then select the strongest one based on:
+
+* Clarity
+* Market appeal
+* Curiosity and conversion strength
+
+Return only the final selected version.
+
+SOP:
+[PASTE YOUR SOP HERE]</pre>
+        <button class="copy-button" onclick="copyText('displayP1', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt 2 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #2</div>
+        <pre id="displayP2" class="prompt-text">Rewrite this to sound sharper, more persuasive, and more premium while keeping the same structure.</pre>
+        <button class="copy-button" onclick="copyText('displayP2', this)">
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt 3 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #3</div>
+        <pre id="displayP3" class="prompt-text">Format this for a clean PDF layout with short paragraphs and clear spacing.</pre>
+        <button class="copy-button" onclick="copyText('displayP3', this)">
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt 4 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #4</div>
+        <pre id="displayP4" class="prompt-text">Make the title more outcome-driven and specific</pre>
+        <button class="copy-button" onclick="copyText('displayP4', this)">
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt 5 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #5</div>
+        <pre id="displayP5" class="prompt-text">Make the step breakdown more curiosity-driven and less detailed</pre>
+        <button class="copy-button" onclick="copyText('displayP5', this)">
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt 6 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #6</div>
+        <pre id="displayP6" class="prompt-text">Make the CTA more urgent and benefit-focused</pre>
+        <button class="copy-button" onclick="copyText('displayP6', this)">
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Lead Magnet Strategist. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const sopInput = document.getElementById('sopInput');
+    const displayP1 = document.getElementById('displayP1');
+    const baseP1 = displayP1.textContent;
+
+    sopInput.addEventListener('input', () => {
+      const val = sopInput.value.trim() || '[PASTE YOUR SOP HERE]';
+      displayP1.textContent = baseP1.replace('[PASTE YOUR SOP HERE]', val);
+    });
+
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = btn.querySelector('.button-text');
+        const prevText = btnText.textContent;
+        btnText.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btnText.textContent = prevText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
