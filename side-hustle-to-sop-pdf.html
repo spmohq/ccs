@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Side Hustle Idea to SOP PDF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --input-bg: rgba(0, 0, 0, 0.3);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    
+    .header-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: transparent;
+      border: 2px solid var(--accent-primary);
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .header-btn:hover {
+      background-color: var(--accent-primary);
+      color: #020617;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+
+    /* Input Section Styles */
+    .input-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--accent-primary);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    textarea {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+      min-height: 100px;
+      resize: vertical;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    .prompts-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Prompt Card Styles */
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      margin-bottom: 10px;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 20px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #ecfdf5;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Button Styles */
+    .copy-button {
+      align-self: flex-end;
+      padding: 10px 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #042f2e;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+      color: #fff;
+    }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Side Hustle Idea to SOP PDF</h1>
+      <a href="https://spmohq.github.io/ccs/cover-page-genie.html" target="_blank" class="header-btn">Cover Page Genie</a>
+    </header>
+
+    <main class="prompts-stack">
+      
+      <!-- Dynamic Input for Prompt 1 & 2 -->
+      <div class="input-section">
+        <label for="ideaInput">[Side Hustle Idea]</label>
+        <textarea id="ideaInput" placeholder="Paste the Side Hustle Idea and guidelines here..."></textarea>
+      </div>
+
+      <!-- Prompt 1 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #1: Strategic Analysis</div>
+        <pre id="displayP1" class="prompt-text">Analyze the following Side Hustle idea and guidelines using the structure below. Read carefully and base your analysis only on what is stated or clearly implied. 
+
+Here is the idea:
+[Side Hustle Idea]
+
+1. Main Message
+Summarize the overall message of the post in 1–2 sentences.
+
+2. Core Message (Deeper Essence)
+Identify the deeper intention, underlying theme, or central takeaway the writer wants the audience to grasp.
+
+3. Truth Evaluation of Claims
+List each factual claim or implication in the post and evaluate it as:
+- Accurate
+- Partially accurate
+- False
+- Opinion
+- Unverifiable
+Include short explanations for each label. Evaluate only the claims actually present in the text—do not infer more than what is stated or implied.
+
+4. Bias Detection
+4A. Linguistic Bias: Emotionally charged words, exaggerations, selective wording, rhetorical devices.
+4B. Framing Bias: One-sided framing, missing context, selective presentation.
+4C. Motivational / Confirmation Bias: Signs the writer interprets facts to support a predetermined belief.
+4D. Audience-Targeted Bias: Attempts to rally, divide, persuade, or alarm a specific group.
+4E. Neutrality Assessment: Is the tone neutral, mildly biased, strongly biased, or highly biased? Explain why.
+
+General Rules:
+- Stay objective and evidence-based.
+- Do not add emotion or assumptions.
+- Distinguish clearly between facts and opinions.
+- Avoid judging the writer personally.</pre>
+        <button class="copy-button" onclick="copyText('displayP1', this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 2 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #2: Step-by-Step Live Guidance</div>
+        <pre id="displayP2" class="prompt-text">Analyze the following Side Hustle idea and guidelines and provide a step-by-step execution process, starting from setup and continuing through full completion. 
+Also include AI-assisted prompts for any steps that can be completed with the help of AI.
+Each instruction must be written as if you are guiding the user live, in real time, while they are using their phone or computer.
+For each step, write an AI prompt that instructs ChatGPT to walk a beginner through the step, starting from setup and continuing through full completion.
+
+Here is the idea:
+
+[Side Hustle Idea]</pre>
+        <button class="copy-button" onclick="copyText('displayP2', this)">Copy Prompt</button>
+      </div>
+
+      <!-- Dynamic Input for Prompt 3 -->
+      <div class="input-section">
+        <label for="processInput">[PASTE THE PROCESS]</label>
+        <textarea id="processInput" placeholder="Paste the execution process generated by Prompt #2 here..."></textarea>
+      </div>
+
+      <!-- Prompt 3 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #3: Productization & SOP Architecture</div>
+        <pre id="displayP3" class="prompt-text">You are a professional non-fiction ebook marketer, positioning expert, and SOP (Standard Operating Procedure) architect.
+
+Your task is to analyze the following step-by-step execution process, treat it as a premium paid product, and generate a structured, productized SOP-style ebook that is both highly marketable and operationally precise.
+
+STEP-BY-STEP PROCESS:
+[PASTE THE PROCESS]
+
+If the process is unclear, incomplete, or poorly structured, first refine and improve it into a clear, logical SOP before generating the output.
+
+You must combine:
+
+* Conversion-focused positioning (like a premium paid product)
+* Clear, logical, step-by-step SOP structure (practical and executable)
+
+Generate the following:
+
+1. A highly compelling TITLE
+2. A clear, benefit-driven SUBTITLE
+3. A concise DESCRIPTION / INTRO BLURB
+4. A chapter title for each stage of the SOP
+5. Sub-section titles for each chapter (each representing specific actions, steps, or checkpoints)
+
+Follow this exact structure and intent:
+
+* Title = The CORE PROBLEM or DESIRED OUTCOME
+* Subtitle = The UNIQUE MECHANISM or PROMISE
+* Description = The TARGET AUDIENCE + RESULT
+
+IMPORTANT RULES:
+
+* Do NOT be vague or generic
+* Do NOT use poetic or abstract language
+* Focus on clarity, specificity, and market appeal
+* Keep it simple, direct, and conversion-focused
+* Avoid fluff
+* Make it feel like a premium paid product
+
+SOP STRUCTURE REQUIREMENTS:
+
+* Follow a logical, step-by-step execution flow
+* Do NOT skip, merge, or remove important steps from the original process
+* Ensure full coverage of the entire process from start to finish
+* Each chapter = a distinct stage of the process
+* Each sub-section = a specific action, task, or checkpoint derived from the process
+* Use clear, action-oriented language (start with verbs where possible)
+* Ensure the structure is practical, repeatable, and directly usable
+* Maintain chronological order
+* Ensure each stage builds logically on the previous one
+
+FORMAT YOUR OUTPUT EXACTLY LIKE THIS:
+
+Title (The Problem / Outcome): [Write Here In Title Case]
+
+Subtitle (The Solution / Mechanism): [Write Here In Title Case]
+
+Description / Intro blurb (The Audience + Result): [Write Here In Normal Sentence Case]
+
+Chapters and Sections:
+
+Chapter 1: [Specific Stage Name]
+
+* [Action-based Sub-section Title]
+* [Action-based Sub-section Title]
+
+Chapter 2: [Specific Stage Name]
+
+* [Action-based Sub-section Title]
+* [Action-based Sub-section Title]
+
+(Continue for all relevant stages of the SOP)
+
+FINAL INSTRUCTION:
+
+Generate 3 variations.
+Then select the strongest one based on:
+
+* Clarity
+* Market appeal
+* Logical SOP structure
+
+Return only the final selected version after evaluation.</pre>
+        <button class="copy-button" onclick="copyText('displayP3', this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 4 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #4: eBook Full Writing</div>
+        <pre class="prompt-text">Turn this into full ebook. 
+
+Convert this outline into a complete ready-to-sell PDF product, including:
+
+Fully written chapters (expanded)
+Beginner walkthrough style
+Built-in prompts
+Templates & examples
+Google Doc-ready formatting structure
+
+Write, structure, and export all the complete chapters, slowly and one at a time, for the eBook. 
+
+Step 1 — Write the 'One' Chapter at a time following this exact structure: 
+- Heading Title (H1), Subheadings (H2/H3) for each major topic. 
+- Use true Word formatting for bold, italics, and headings (not markdown). 
+- Use proper numbered and bulleted lists (do not manually add '1.' or '•'). 
+- Add tables, frameworks, and visual dividers where relevant. 
+- Include ChatGPT/AI prompts, real-life examples, and mini case studies. 
+- End with: Key Takeaways (bulleted list) + Next Chapter Preview. 
+ 
+Step 2 — Tone & Style Requirements 
+- Practical, motivational, and friendly — written like a digital mentor or life coach. Each instruction must be written as if you are guiding the user live, in real time, while they are using their phone or computer.
+- Use a clear, step-by-step teaching style for busy beginners. 
+- Focus on emotion + action: help readers reflect, plan, and feel empowered. 
+- Keep paragraphs short (4–6 lines) for readability. 
+ 
+Step 3 — Formatting Rules (for .docx output) 
+- Use true Word formatting (not markdown or symbols) for all bold, italics, heading styles. 
+- Use only one level of automatic numbering or bullets (no manual prefixes). 
+- Add visual variety using tables, blueprints, or dividers where suitable. 
+ 
+Step 4 — Final Output 
+- Editable eBook preview in canvas mode. 
+- Ensure all headings, bullets, and numbering are clean and consistent. 
+- Generate only one chapter in separate canvas
+
+Now give me complete ready-to-sell PDF product.</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+      <!-- Prompt 5 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #5: Google Docs Export</div>
+        <pre class="prompt-text">Now generate the final document with your previous answer in a Google Docs–ready format using style markers in Editable canvas mode. 
+
+Strict rules:
+- Output ONLY the document
+- No explanations, no notes
+
+Formatting system (MANDATORY):
+
+- [H1] Section heading
+- [H2] Sub-section heading (if needed)
+- [BODY] Paragraph text
+- [B]Text[/B] Bold Text
+- [U]Text[/U] Underlined Text
+- [I]Text[/I] Italicised Text
+- [HL]Text[/HL] Highlighted Text
+- [BQ]Text[/BQ] Block Quoted Text
+
+- [BULLETS]
+  • Point 1
+  • Point 2
+
+- [CLOSING] Final closing line
+
+Spacing rules:
+- Keep clean spacing between all elements
+- Each tag must be on its own line
+
+Goal:
+This should be structured so I can quickly use “Find and Replace” in Google Docs to convert:
+[TITLE] → Title style  
+[H1] → Heading 1  
+[H2] → Heading 2</pre>
+        <button class="copy-button" onclick="copyPromptStatic(this)">Copy Prompt</button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Side Hustle System Genie. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const ideaIn = document.getElementById('ideaInput');
+    const processIn = document.getElementById('processInput');
+    
+    const d1 = document.getElementById('displayP1');
+    const d2 = document.getElementById('displayP2');
+    const d3 = document.getElementById('displayP3');
+
+    const base1 = d1.textContent;
+    const base2 = d2.textContent;
+    const base3 = d3.textContent;
+
+    function update() {
+      const ideaVal = ideaIn.value.trim() || '[Side Hustle Idea]';
+      const processVal = processIn.value.trim() || '[PASTE THE PROCESS]';
+
+      d1.textContent = base1.replace(/\[Side Hustle Idea\]/g, ideaVal);
+      d2.textContent = base2.replace(/\[Side Hustle Idea\]/g, ideaVal);
+      d3.textContent = base3.replace(/\[PASTE THE PROCESS\]/g, processVal);
+    }
+
+    ideaIn.addEventListener('input', update);
+    processIn.addEventListener('input', update);
+
+    function copyText(id, btn) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function copyPromptStatic(btn) {
+      const text = btn.parentElement.querySelector('.prompt-text').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btnText = originalText;
+          btn.textContent = originalText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
