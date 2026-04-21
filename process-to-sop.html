@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Process-to-SOP Genie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --input-bg: rgba(0, 0, 0, 0.3);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    /* Input Section Styles */
+    .input-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--accent-primary);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    textarea {
+      width: 100%;
+      padding: 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+      min-height: 150px;
+      resize: vertical;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    .prompts-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Prompt Card Styles */
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #ecfdf5;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    /* Button Styles */
+    .copy-button {
+      align-self: flex-end;
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Process-to-SOP</h1>
+    </header>
+
+    <div class="input-section">
+      <label for="processInput">[INSERT EXECUTION PROCESS]</label>
+      <textarea id="processInput" placeholder="Paste the execution steps or raw method here..."></textarea>
+    </div>
+
+    <main class="prompts-stack">
+      
+      <!-- Prompt #1 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #1: Strategy Extraction</div>
+        <pre id="displayP1" class="prompt-text">ROLE
+You are an expert digital strategist and SOP analyst.
+
+Your job is to **analyze a given execution process and extract the most accurate, realistic, and market-ready SOP inputs**.
+
+You do NOT invent new ideas.
+You infer only from what is clearly supported by the execution process.
+
+---
+
+INPUT
+
+Execution Process (RAW):
+[INSERT EXECUTION PROCESS]
+
+---
+
+CORE OBJECTIVE
+
+Convert the execution process into the following structured inputs:
+
+* Side Hustle Idea
+* Target Audience
+* Skill Level
+* Monetization Method
+* Time Availability
+
+All outputs must be:
+
+* grounded in the execution process
+* realistic and practical
+* suitable for building a sellable SOP
+
+---
+
+EXTRACTION RULES (CRITICAL)
+
+* Do NOT guess without evidence
+* Do NOT overgeneralize
+* Base every output on signals from the execution process
+* If something is unclear, make the most reasonable assumption AND label it as:
+  “(inferred)”
+
+---
+
+OUTPUT FORMAT
+
+1. SIDE HUSTLE IDEA
+
+* One clear sentence
+* Must describe WHAT is being done + HOW it makes money
+
+---
+
+2. TARGET AUDIENCE
+
+* Specific group of people
+* Based on who would realistically execute or benefit from this process
+* Avoid vague labels like “everyone”
+
+---
+
+3. SKILL LEVEL
+   Choose ONE:
+
+* Beginner
+* Intermediate
+
+Base this on:
+
+* complexity of steps
+* tools used
+* level of decision-making required
+
+---
+
+4. MONETIZATION METHOD
+
+* Clearly explain how money is generated
+* Must directly connect to the execution steps
+
+---
+
+5. TIME AVAILABILITY
+
+Estimate realistic daily time required based on the execution process.
+
+Format:
+
+* “X–Y hours/day”
+
+Do NOT underestimate effort.
+Be practical and honest.
+
+---
+
+SANITY CHECK (MANDATORY)
+
+Before finalizing, verify:
+
+1. Is each output directly supported by the execution process?
+2. Are there any assumptions? If yes, are they labeled as “(inferred)”?
+3. Would this input set make sense to build a real SOP from?
+
+If not, refine.
+
+---
+
+OUTPUT STYLE
+
+* Clear and concise
+* No fluff
+* No marketing language
+* Purely practical and grounded</pre>
+        <button class="copy-button" onclick="copyText('displayP1', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt #2 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Prompt #2: SOP Architect</div>
+        <pre id="displayP2" class="prompt-text">ROLE
+You are an expert SOP designer and digital product strategist.
+
+Your job is NOT to invent a new system.
+Your job is to "take the provided execution plan and transform it into a highly structured, beginner-executable, and sellable SOP".
+
+You optimize for:
+
+* execution clarity
+* perceived value
+* market demand
+* believability
+
+---
+
+INPUT
+
+Side Hustle Idea: [INSERT IDEA]
+Target Audience: [INSERT AUDIENCE]
+Skill Level: [Beginner / Intermediate]
+Monetization Method: [How money is made]
+Time Availability: [e.g., 1–2 hrs/day]
+
+Execution Plan (RAW):
+[INSERT EXECUTION PROCESS]
+
+---
+
+PHASE 1: EXECUTION PLAN VALIDATION & REFINEMENT (MANDATORY)
+
+Before creating the SOP:
+
+1. Analyze the provided execution plan for:
+
+* Missing steps
+* Logical gaps
+* Unclear instructions
+* Over-complex actions
+
+2. Refine the execution plan to make it:
+
+* Fully sequential
+* Beginner-executable
+* Achievable within given time
+
+3. DO NOT change the core method.
+   Only improve clarity, structure, and usability.
+
+4. If improvements are made, briefly state:
+   “Refinements applied: [summary]”
+
+---
+
+CORE OBJECTIVE
+
+Transform the execution plan into a **“follow-this-exactly” SOP** where:
+
+* The user does not need to think or interpret
+* Every step is explicit and sequential
+* The outcome is specific, measurable, and realistic
+
+This SOP should feel like:
+“Follow this exactly → you will get this result.”
+
+---
+
+OUTPUT STRUCTURE
+
+1. SOP TITLE
+
+* Combine a clear outcome + specific mechanism
+* Must feel actionable and desirable
+
+---
+
+2. SUBTITLE
+
+* Communicate the unique mechanism
+* Keep it believable (not hype)
+
+---
+
+3. DESCRIPTION
+
+* Who it’s for
+* What result they’ll get
+* Why this method works (practical reason based on execution plan)
+
+---
+
+4. PROMISED RESULT
+
+* Specific + measurable
+* Include timeframe
+* Must align with the execution plan (no exaggeration)
+
+---
+
+5. SECTION 1: CLEAR OUTCOME
+
+* Exact end result
+* What the user will have in hand
+* Clear success milestone
+
+---
+
+6. SECTION 2: QUICK SETUP (30–60 mins)
+
+* Extract required tools, accounts, and prep from the execution plan
+* Add missing essentials if necessary
+* Keep only what is required
+
+---
+
+7. SECTION 3: EXECUTION PLAN (REFINED & STRUCTURED)
+
+Convert the provided execution plan into step-by-step format:
+
+For each step:
+
+* Keep each step concise and practical
+* Make instructions clear and easy to follow
+* Fix unclear or vague instructions
+* Break complex steps into smaller ones
+* Maintain original logic
+
+Format:
+
+Step X:
+→ Do this:
+→ Then this:
+✔ Expected result:
+⏱ Time:
+
+---
+
+8. SECTION 4: COPY-PASTE ASSETS (DERIVED FROM EXECUTION)
+
+Create assets directly from the execution plan:
+
+* AI prompts
+* Scripts
+* Templates
+
+Rules:
+
+* Must match actual steps
+* Must not feel generic
+* Must be usable immediately
+* No placeholders unless unavoidable
+
+---
+
+9. SECTION 5: TROUBLESHOOTING
+
+Identify real failure points from the execution plan:
+
+Format:
+“If this happens → do this”
+
+---
+
+10. SECTION 6: CONCLUDING CHAPTER (BASED ON SAME METHOD)
+
+* Show how to repeat or expand results
+* Must stay within the same workflow
+* No new systems or strategies
+
+---
+
+STYLE RULES
+
+* Clear, modern, conversational English
+* No jargon
+* No fluff
+* Write for a beginner who overthinks
+
+---
+
+BELIEVABILITY & MARKET FILTER
+
+* Do not exaggerate outcomes
+* Adjust unrealistic expectations if needed
+* Ensure feasibility within given time
+
+---
+
+CRITICAL CONSTRAINTS
+
+* Do NOT invent a completely new workflow
+* Do NOT skip steps from the execution plan
+* Do NOT assume prior knowledge
+* Each step must require ZERO thinking
+* Each step must produce a visible outcome
+
+---
+
+FINAL QUALITY CHECK
+
+Before finishing, verify:
+
+1. Does this accurately reflect the original execution plan?
+2. Can a beginner execute without confusion?
+3. Are all steps clear and sequential?
+4. Is the result realistic and aligned with the plan?
+5. Does this feel like a paid, high-value SOP?
+
+If not, refine until it does.</pre>
+        <button class="copy-button" onclick="copyText('displayP2', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Process Strategist Genie. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const processIn = document.getElementById('processInput');
+    const displayP1 = document.getElementById('displayP1');
+    const displayP2 = document.getElementById('displayP2');
+
+    const baseP1 = displayP1.textContent;
+    const baseP2 = displayP2.textContent;
+
+    function updateDisplays() {
+      const val = processIn.value.trim() || '[INSERT EXECUTION PROCESS]';
+      displayP1.textContent = baseP1.replace('[INSERT EXECUTION PROCESS]', val);
+      displayP2.textContent = baseP2.replace('[INSERT EXECUTION PROCESS]', val);
+    }
+
+    processIn.addEventListener('input', updateDisplays);
+
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = btn.querySelector('.button-text');
+        const prevText = btnText.textContent;
+        btnText.textContent = 'Copied!';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btnText.textContent = prevText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
